@@ -17,25 +17,33 @@
       Radar. However, users are given a strict list of songs for the week and do
       not have a choice over the songs they are suggested. We want to make a
       song recommendation visualization tool for music listeners that want to
-      take more control of the music they listen to and see what makes up their
-      music as well. We want to users to find new songs based on their personal
-      choices instead of being confined to an algorithm. Currently on Spotify,
-      users can also mark down that they don’t like a certain song, but that
-      doesn’t prevent them from getting recommended more songs that they don’t
-      like in the future. Using our tool, if users “dislike” a song that is
-      chosen for them, they also have the option where we will “dislike” songs
-      with similar features to the data point that was selected. Spotify also
-      creates suggested playlists for its users based on a certain vibe, for
-      example, Chill Mix. While some new music is introduced, most of the time
-      the songs chosen are music that the user already listens to. So, another
-      domain task we want to support is allowing users to curate personal
-      playlists based on a “vibe,” which can be determined by song features such
-      as danceability and valence.
+      take more control of the music they listen to. Users will be able to find
+      new songs based on their personal choices instead of being confined to an
+      algorithm. They can select the musical artists they are interested in, and
+      we will output a scatterplot that shows all of the songs that match the
+      search criteria. From there, users will be able to view the different
+      features that make up a certain song and learn more about their music
+      taste.
+      <br />
+      <br />
+      In addition, Spotify users can also mark down that they don’t like a
+      recommended song, but that doesn’t prevent them from getting recommended
+      more songs that they don’t like in the future. Using our tool, if users
+      “dislike” a song that is chosen for them, they also have the option of
+      disliking songs with similar features to the data point that was selected.
+      <br />
+      <br />
+      Finally, Spotify also creates suggested playlists for its users based on a
+      certain vibe, for example, Chill Mix. While some new music is introduced,
+      most of the time the songs chosen are music that the user already listens
+      to. So, another domain task we want to support is allowing users to curate
+      personal playlists filled with new music that all have the same “vibe,”
+      which can be determined by song features such as danceability and valence.
     </div>
 
     <div>
       <h2>Background</h2>
-
+      TODO: Add link to report, demo video, link to data etc. here
       <h3>Data</h3>
       We have chosen to link our data visualization tool with the Spotify API.
       This library gives us access to an effectively endless amount of JSON
@@ -74,8 +82,7 @@
       the data we want, we iterated through the top 1000 artists on Spotify and
       got the top 10 tracks of each artist. Then, we requested the audio
       features for each track. There was no bad data involved and thus data
-      cleaning was not a necessity. TODO: Add link to report, demo video, link
-      to data etc. here
+      cleaning was not a necessity.
     </div>
 
     <div>

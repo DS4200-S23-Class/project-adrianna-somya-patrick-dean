@@ -1,7 +1,10 @@
 body {
-    font-family: Arial;
+  font-family: Arial;
+  margin-left: 75px;
+  margin-right: 75px;
+  text-align: justify;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
