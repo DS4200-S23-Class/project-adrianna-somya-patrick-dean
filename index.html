@@ -1,39 +1,91 @@
 <!DOCTYPE html>
-<html> 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
-<head>
-    <meta charset=utf-8/>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Visualizing Spotify Song Attributes</title>
+  </head>
 
-    <title>TODO: Add short title here</title>
-</head>
-
-
-<body>
-
-    <h1>TODO: Add project title here</h1>
+  <body>
+    <h1>Visualizing Spotify Song Attributes</h1>
 
     <div>
-        <h2>Motivation</h2>
-        TODO: Add motivation / use case here 
+      <h2>Motivation</h2>
+      Spotify has grown considerably over the past decade and has come up with
+      multiple music recommendation systems such as Discover Weekly and Release
+      Radar. However, users are given a strict list of songs for the week and do
+      not have a choice over the songs they are suggested. We want to make a
+      song recommendation visualization tool for music listeners that want to
+      take more control of the music they listen to and see what makes up their
+      music as well. We want to users to find new songs based on their personal
+      choices instead of being confined to an algorithm. Currently on Spotify,
+      users can also mark down that they don’t like a certain song, but that
+      doesn’t prevent them from getting recommended more songs that they don’t
+      like in the future. Using our tool, if users “dislike” a song that is
+      chosen for them, they also have the option where we will “dislike” songs
+      with similar features to the data point that was selected. Spotify also
+      creates suggested playlists for its users based on a certain vibe, for
+      example, Chill Mix. While some new music is introduced, most of the time
+      the songs chosen are music that the user already listens to. So, another
+      domain task we want to support is allowing users to curate personal
+      playlists based on a “vibe,” which can be determined by song features such
+      as danceability and valence.
     </div>
 
     <div>
-        <h2>Background</h2>
-        TODO: Add link to report, demo video, link to data etc. here  
+      <h2>Background</h2>
+
+      <h3>Data</h3>
+      We have chosen to link our data visualization tool with the Spotify API.
+      This library gives us access to an effectively endless amount of JSON
+      metadata about the music and artists available on Spotify, as well as
+      user-related data collected by the company playlists created by users as
+      well as listening history. However, we used the API to manually create a
+      database of ten thousand songs that we will use as the basis for our
+      visualization. These songs will evenly span the top one thousand artists
+      on Spotify so that users can discover new music across genres and musical
+      features. The link to the spotify web API can be found here:
+      https://api.spotify.com.
+      <br />
+      <br />
+      The data we are using was collected by Spotify under the user privacy and
+      data collection agreement that all users sign when creating a Spotify
+      account. As such, all user-related data seem to have been collected in an
+      ethical manner. However, it does not seem likely that users understand the
+      depth of data collected, nor what Spotify uses it for, other than the
+      customized playlists and summaries they surface to users. We believe it
+      would be more ethical for Spotify to be more easily understandable and
+      transparent about how they analyze and implement collected data, but the
+      methods of collection themselves are not inherently unethical.
+      <br />
+      <br />
+      Furthermore, it is difficult to identify potential sources of bias in the
+      data provided by Spotify. All music and artist data are fairly
+      objective—statistics such as artist popularity and number of streams are
+      easy to count and bias-free. Similarly, user listening history is simply a
+      queue of songs, so there is no way that collection and storage would
+      introduce bias into the data set.
+      <br />
+      <br />
+      Not much data cleaning is required when handling data received from the
+      Spotify API. This is because the Spotify API responds to requests very
+      efficiently, allowing data collection to be quite simple. In order to get
+      the data we want, we iterated through the top 1000 artists on Spotify and
+      got the top 10 tracks of each artist. Then, we requested the audio
+      features for each track. There was no bad data involved and thus data
+      cleaning was not a necessity. TODO: Add link to report, demo video, link
+      to data etc. here
     </div>
 
     <div>
-        <h2>Visualization</h2>
-        TODO: Build your visualization tool here  
+      <h2>Visualization</h2>
+      TODO: Build your visualization tool here
     </div>
 
     <div>
-        <h2>Acknowledgements</h2>
-        TODO: Cite resources used here   
+      <h2>Acknowledgements</h2>
+      TODO: Cite resources used here
     </div>
-
-
-</body>
-
+  </body>
 </html>
