@@ -93,8 +93,12 @@ g.append("g").call(d3.axisLeft(yScale));
 
 // reading in the data
 d3.csv("track_data.csv").then((data) => {
-  // plot
+  // logging 10 lines of data
+  for (i = 0; i < 10; i++) {
+    console.log(data[i]);
+  }
 
+  // plot
   svg
     .append("g")
     .selectAll("dot")
