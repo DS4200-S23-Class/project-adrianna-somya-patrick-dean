@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
 
     <title>Visualizing Spotify Song Attributes</title>
+    <script src="js/d3.v6.1.1/d3.min.js"></script>
   </head>
 
   <body>
@@ -91,11 +92,70 @@
     <div>
       <h2>Visualization</h2>
       TODO: Build your visualization tool here
+      <div class="container">
+        <div class="col1">
+          <label for="axisY">Song Feature</label>
+          <br />
+          <select name="axisY" id="axisY">
+            <option value="popularity">Popularity</option>
+            <option value="danceability">Danceability</option>
+            <option value="energy">Energy</option>
+            <option value="speechiness">Speechiness</option>
+            <option value="instrumentalness">Instrumentalness</option>
+            <option value="tempo">Tempo</option>
+            <option value="loudness">Loudness</option>
+            <option value="acousticness">Acousticness</option>
+            <option value="liveness">Liveness</option>
+            <option value="valence">Valence</option>
+          </select>
+        </div>
+
+        <div class="col2">
+          <div id="vis1"></div>
+
+          <div class="dropdown2">
+            <label for="axisX">Song Feature</label>
+            <br />
+            <select name="axisX" id="axisX">
+              <option value="popularity">Popularity</option>
+              <option value="danceability">Danceability</option>
+              <option value="energy">Energy</option>
+              <option value="speechiness">Speechiness</option>
+              <option value="instrumentalness">Instrumentalness</option>
+              <option value="tempo">Tempo</option>
+              <option value="loudness">Loudness</option>
+              <option value="acousticness">Acousticness</option>
+              <option value="liveness">Liveness</option>
+              <option value="valence">Valence</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div id="secondaryVis">
+          <div class="playlistCol">hello</div>
+          <div class="barChartCol">hi</div>
+        </div>
+      </div>
     </div>
 
     <div>
       <h2>Acknowledgements</h2>
-      TODO: Cite resources used here
+      <ul>
+        <li>
+          <a href="https://www.statology.org/normalize-data-between-0-and-1/">
+            https://www.statology.org/normalize-data-between-0-and-1/
+          </a>
+        </li>
+        <li>
+          <a href="https://www.w3schools.com/tags/tag_select.asp">
+            https://www.w3schools.com/tags/tag_select.asp
+          </a>
+        </li>
+      </ul>
     </div>
+
+    <script src="js/d3.v6.1.1/script.js"></script>
   </body>
 </html>

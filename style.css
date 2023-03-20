@@ -8,3 +8,28 @@ body {
 h1 {
   text-align: center;
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.col1 {
+  width: 10%;
+}
+
+.col2 {
+  width: 90%;
+}
+
+.playlistCol {
+  width: 50%;
+}
+
+.barChartCol {
+  width: 50%;
+}
+
+.dropdown2 {
+  text-align: center;
+}
