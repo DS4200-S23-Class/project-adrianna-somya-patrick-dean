@@ -7,12 +7,66 @@ function getXAxis() {
 
 function getYAxis() {
   let yAxis = document.getElementById("axisY").value;
-  console.log(yAxis);
+  // console.log(yAxis);
   return yAxis;
 }
 
-getXAxis();
-getYAxis();
+// changing the axes will update the graph
+function updateGraph() {
+  svg.selectAll("circle").remove();
+
+  // reading in data
+  return d3.csv("track_data.csv").then((data) => {
+    // plot
+    svg
+      .append("g")
+      .selectAll("dot")
+      .filter((d) => {
+        let num = Math.random();
+        return num < 0.05;
+      })
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d) {
+        return plot(d, xScale, getXAxis);
+      })
+      .attr("cy", function (d) {
+        return plot(d, yScale, getYAxis);
+      })
+      .attr("r", 2)
+      .attr("transform", "translate(" + 100 + "," + 100 + ")")
+      .style("fill", "palevioletred");
+  });
+}
+
+// plot the given data row onto the graph given a scale function and axis calculating function
+function plot(d, scaleFunction, axisFunction) {
+  switch (axisFunction()) {
+    case "popularity":
+      return scaleFunction(d.popularity);
+    case "danceability":
+      return scaleFunction(d.danceability * 100);
+    case "energy":
+      return scaleFunction(d.energy * 100);
+    case "speechiness":
+      return scaleFunction(d.speechiness * 100);
+    case "instrumentalness":
+      return scaleFunction(d.instrumentalness * 100);
+    case "tempo":
+      return scaleFunction(d.tempo);
+    case "loudness":
+      return scaleFunction(d.loudness * 100);
+    case "acousticness":
+      return scaleFunction(d.acousticness * 100);
+    case "liveness":
+      return scaleFunction(d.liveness * 100);
+    case "valence":
+      return scaleFunction(d.valence * 100);
+    default:
+      break;
+  }
+}
 
 // frame for scatterplot
 let svg = d3
@@ -40,6 +94,7 @@ g.append("g").call(d3.axisLeft(yScale));
 // reading in the data
 d3.csv("track_data.csv").then((data) => {
   // plot
+
   svg
     .append("g")
     .selectAll("dot")
@@ -51,85 +106,12 @@ d3.csv("track_data.csv").then((data) => {
     .enter()
     .append("circle")
     .attr("cx", function (d) {
-      switch (getXAxis()) {
-        case "popularity":
-          return xScale(d.popularity);
-          break;
-        case "danceability":
-          return xScale(d.danceability * 100);
-          break;
-        case "energy":
-          return xScale(d.energy * 100);
-          break;
-        case "speechiness":
-          return xScale(d.speechiness * 100);
-          break;
-        case "instrumentalness":
-          return xScale(d.instrumentalness * 100);
-          break;
-        case "tempo":
-          return xScale(d.tempo);
-          break;
-        case "loudness":
-          return xScale(d.loudness * 100);
-          break;
-        case "acousticness":
-          return xScale(d.acousticness * 100);
-          break;
-        case "liveness":
-          return xScale(d.liveness * 100);
-          break;
-        case "valence":
-          return xScale(d.valence * 100);
-          break;
-        default:
-          break;
-      }
+      return plot(d, xScale, getXAxis);
     })
     .attr("cy", function (d) {
-      switch (getYAxis()) {
-        case "popularity":
-          return yScale(d.popularity);
-          break;
-        case "danceability":
-          return yScale(d.danceability * 100);
-          break;
-        case "energy":
-          return yScale(d.energy * 100);
-          break;
-        case "speechiness":
-          return yScale(d.speechiness * 100);
-          break;
-        case "instrumentalness":
-          return yScale(d.instrumentalness * 100);
-          break;
-        case "tempo":
-          return yScale(d.tempo);
-          break;
-        case "loudness":
-          return yScale(d.loudness * 100);
-          break;
-        case "acousticness":
-          return yScale(d.acousticness * 100);
-          break;
-
-        case "liveness":
-          return xScale(d.liveness * 100);
-          break;
-        case "valence":
-          return xScale(d.valence * 100);
-          break;
-        default:
-          break;
-      }
+      return plot(d, yScale, getYAxis);
     })
     .attr("r", 2)
     .attr("transform", "translate(" + 100 + "," + 100 + ")")
     .style("fill", "palevioletred");
-  // .on("mouseover", function (d) {
-  //   d3.select(this).attr("r", 10).style("fill", "red");
-  // })
-  // .on("mouseout", function (d) {
-  //   d3.select(this).attr("r", 10).style("fill", "black");
-  // });
 });
