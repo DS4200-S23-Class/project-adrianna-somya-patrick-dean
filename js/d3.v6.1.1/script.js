@@ -66,16 +66,16 @@ const TOOLTIP = d3
   .select("#vis1")
   .append("div")
   .attr("class", "tooltip")
-  .style("opacity", 0);
+  .style("display", "none");
 
 function handleMouseover(event, d) {
   event.target.style.fill = "#1DB954";
-  TOOLTIP.style("opacity", 1);
+  TOOLTIP.style("display", "block");
 }
 
 function handleMouseleave(event, d) {
   event.target.style.fill = "palevioletred";
-  TOOLTIP.style("opacity", 0);
+  TOOLTIP.style("display", "none");
 }
 
 function handleMousemove(event, d) {
