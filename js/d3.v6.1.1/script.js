@@ -125,7 +125,7 @@ function drawScatterplotPoints() {
       .attr("cy", function (d) {
         return plot(d, yScale, getYAxis);
       })
-      .attr("r", 3)
+      .attr("r", 4)
       .attr("transform", "translate(" + 100 + "," + 100 + ")")
       .style("fill", "palevioletred")
       .on("mouseover", handleMouseover)
@@ -250,7 +250,7 @@ function drawBarChartBars() {
       .scaleLinear()
       .domain([0, 100])
       .range([0, barChartHeight - barChartMargin]);
-      
+
     // draw bars
     barChart
       .append("g")
