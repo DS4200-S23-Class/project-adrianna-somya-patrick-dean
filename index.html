@@ -96,7 +96,7 @@
         <div class="col1">
           <label for="axisY">Song Feature</label>
           <br />
-          <select name="axisY" id="axisY" onChange="updateGraph()">
+          <select name="axisY" id="axisY" onChange="updateScatterplot()">
             <option value="popularity">Popularity</option>
             <option value="danceability">Danceability</option>
             <option value="energy">Energy</option>
@@ -116,7 +116,7 @@
           <div class="dropdown2">
             <label for="axisX">Song Feature</label>
             <br />
-            <select name="axisX" id="axisX" onChange="updateGraph()">
+            <select name="axisX" id="axisX" onChange="updateScatterplot()">
               <option value="popularity">Popularity</option>
               <option value="danceability">Danceability</option>
               <option value="energy">Energy</option>
@@ -134,8 +134,19 @@
 
       <h3 class="centered">Analyze Your Playlist</h3>
       <div class="container">
-        <div class="playlistCol">hello</div>
-        <div class="barChartCol">hi</div>
+        <div class="playlistCol">
+          <label for="playlistSelect">Choose a Playlist</label>
+          <br />
+          <select name="playlistSelect" id="playlistSelect" onChange="updateBarChart()">
+            <option value="likedsongs">Liked Songs</option>
+            <option value="chillvibes">Chill Vibes</option>
+            <option value="tswift">I LOVE TAYLOR SWIFT</option>
+            <option value="garbage">AJR Mega-Playlist</option>
+          </select>
+        </div>
+        <div class="barChartCol">
+          <div id="vis2"></div>
+        </div>
       </div>
     </div>
 
@@ -160,6 +171,16 @@
         <li>
           <a href="https://www.geeksforgeeks.org/how-to-get-selected-value-in-dropdown-list-using-javascript/">
             https://www.geeksforgeeks.org/how-to-get-selected-value-in-dropdown-list-using-javascript/
+          </a>
+        </li>
+        <li>
+          <a href="https://www.d3indepth.com/axes/">
+            https://www.d3indepth.com/axes/
+          </a>
+        </li>
+        <li>
+          <a href="https://www.d3indepth.com/scales/">
+            https://www.d3indepth.com/scales/
           </a>
         </li>
       </ul>

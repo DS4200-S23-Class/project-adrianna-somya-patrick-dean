@@ -12,6 +12,8 @@ body {
 .container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
 .col1 {
@@ -20,16 +22,25 @@ body {
 
 .col2 {
   width: 90%;
+  text-align: center;
 }
 
 .playlistCol {
-  width: 50%;
+  width: 30%;
 }
 
 .barChartCol {
-  width: 50%;
+  width: 70%;
 }
 
 .dropdown2 {
   text-align: center;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #1DB954;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: left;
 }
