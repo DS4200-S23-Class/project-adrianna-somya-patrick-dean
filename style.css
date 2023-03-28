@@ -37,10 +37,18 @@ body {
   text-align: center;
 }
 
-.tooltip {
+.scatter-tooltip, .bar-tooltip {
   position: absolute;
-  background-color: #1DB954;
+  border: 2px solid black;
   border-radius: 5px;
   padding: 10px;
   text-align: left;
+}
+
+.scatter-tooltip {
+  background-color: #1DB954;
+}
+
+.bar-tooltip {
+  background-color: palevioletred;
 }

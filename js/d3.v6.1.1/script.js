@@ -1,16 +1,16 @@
 // storing users' axes selections
-function getXAxis() {
+function getScatterplotXAxis() {
   const xAxis = document.getElementById("axisX").value;
   return xAxis;
 }
 
-function getYAxis() {
+function getScatterplotYAxis() {
   const yAxis = document.getElementById("axisY").value;
   return yAxis;
 }
 
 // plot the given data row onto the graph given a scale function and axis calculating function
-function plot(d, scaleFunction, axisFunction) {
+function scalePoint(d, scaleFunction, axisFunction) {
   switch (axisFunction()) {
     case "popularity":
       return scaleFunction(d.popularity);
@@ -62,39 +62,39 @@ g.append("g")
 
 g.append("g").call(d3.axisLeft(yScale));
 
-const TOOLTIP = d3
+const SCATTER_PLOT_TOOLTIP = d3
   .select("#vis1")
   .append("div")
-  .attr("class", "tooltip")
+  .attr("class", "scatter-tooltip")
   .style("display", "none");
 
-function handleMouseover(event, d) {
+function handleScatterplotMouseover(event, d) {
   event.target.style.fill = "#1DB954";
-  TOOLTIP.style("display", "block");
+  SCATTER_PLOT_TOOLTIP.style("display", "block");
 }
 
-function handleMouseleave(event, d) {
+function handleScatterplotMouseleave(event, d) {
   event.target.style.fill = "palevioletred";
-  TOOLTIP.style("display", "none");
+  SCATTER_PLOT_TOOLTIP.style("display", "none");
 }
 
-function handleMousemove(event, d) {
-  let xValue = d[getXAxis()];
-  let yValue = d[getYAxis()];
-  if (getXAxis() !== "popularity" && getXAxis() !== "tempo") {
+function handleScatterplotMousemove(event, d) {
+  let xValue = d[getScatterplotXAxis()];
+  let yValue = d[getScatterplotYAxis()];
+  if (getScatterplotXAxis() !== "popularity") {
     xValue = (xValue * 100).toFixed(2);
   }
-  if (getYAxis() !== "popularity" && getYAxis() !== "tempo") {
+  if (getScatterplotYAxis() !== "popularity") {
     yValue = (yValue * 100).toFixed(2);
   }
 
-  TOOLTIP.html(
+  SCATTER_PLOT_TOOLTIP.html(
     "track name: " +
       d.track_name +
       "<br/>artist name: " +
       d.artist_name +
-      `<br/>${getXAxis()}: ${xValue}` +
-      `<br/>${getYAxis()}: ${yValue}`
+      `<br/>${getScatterplotXAxis()}: ${xValue}` +
+      `<br/>${getScatterplotYAxis()}: ${yValue}`
   )
     .style("left", event.pageX + 10 + "px")
     .style("top", event.pageY - 50 + "px");
@@ -120,17 +120,17 @@ function drawScatterplotPoints() {
       .enter()
       .append("circle")
       .attr("cx", function (d) {
-        return plot(d, xScale, getXAxis);
+        return scalePoint(d, xScale, getScatterplotXAxis);
       })
       .attr("cy", function (d) {
-        return plot(d, yScale, getYAxis);
+        return scalePoint(d, yScale, getScatterplotYAxis);
       })
       .attr("r", 4)
       .attr("transform", "translate(" + 100 + "," + 100 + ")")
       .style("fill", "palevioletred")
-      .on("mouseover", handleMouseover)
-      .on("mouseleave", handleMouseleave)
-      .on("mousemove", handleMousemove);
+      .on("mouseover", handleScatterplotMouseover)
+      .on("mouseleave", handleScatterplotMouseleave)
+      .on("mousemove", handleScatterplotMousemove);
   });
 }
 
@@ -166,7 +166,7 @@ const barChart = d3
   barChartHeight = barChart.attr("height") - barChartMargin;
 
 // list of attributes to display in bar chart
-const attributes = [
+const barChartAttributes = [
   "popularity",
   "danceability",
   "energy",
@@ -180,7 +180,7 @@ const attributes = [
 
 const scaleBarXAxis = d3
   .scaleBand()
-  .domain(attributes)
+  .domain(barChartAttributes)
   .range([0, barChartWidth - barChartMargin]);
 const scaleBarYAxis = d3
   .scaleLinear()
@@ -196,6 +196,45 @@ barChartAxes
   .append("g")
   .attr("transform", `translate(0, ${-(barChartHeight - barChartMargin)})`)
   .call(d3.axisLeft(scaleBarYAxis));
+
+// scale function for height of each bar
+const barHeightScale = d3
+  .scaleLinear()
+  .domain([0, 100])
+  .range([0, barChartHeight - barChartMargin]);
+
+const BAR_CHART_TOOLTIP = d3
+  .select("#vis2")
+  .append("div")
+  .attr("class", "bar-tooltip")
+  .style("display", "none");
+
+function handleBarChartMouseover(event, d) {
+  event.target.style.fill = "palevioletred";
+  BAR_CHART_TOOLTIP.style("display", "block");
+}
+
+function handleBarChartMouseleave(event, d) {
+  event.target.style.fill = "#1DB954";
+  BAR_CHART_TOOLTIP.style("display", "none");
+}
+
+function handleBarChartMousemove(event, d) {
+  // let xValue = d[getScatterplotXAxis()];
+  // let yValue = d[getScatterplotYAxis()];
+  // if (getScatterplotXAxis() !== "popularity") {
+  //   xValue = (xValue * 100).toFixed(2);
+  // }
+  // if (getScatterplotYAxis() !== "popularity") {
+  //   yValue = (yValue * 100).toFixed(2);
+  // }
+
+  BAR_CHART_TOOLTIP.html(
+    `average ${event.target.id}: ${d.toFixed(2)}` 
+  )
+    .style("left", event.pageX + 10 + "px")
+    .style("top", event.pageY - 50 + "px");
+}
 
 // draw the bars on the bar chart
 // reads from csv for now
@@ -232,6 +271,7 @@ function drawBarChartBars() {
       songs.forEach((song) => {
         let songAttribute = Number(song[attribute]);
         if (attribute !== "popularity") {
+          // popularity is from 0-100 while all others are 0-1
           songAttribute = songAttribute * 100;
         }
         avg += songAttribute;
@@ -240,16 +280,11 @@ function drawBarChartBars() {
       return avg;
     }
     // bars is just a list of numbers representing averages in each attribute
+    // (which will be scaled to the height o each bar in the chart)
     const bars = [];
-    attributes.forEach((attribute) => {
+    barChartAttributes.forEach((attribute) => {
       bars.push(calcAverage(songs, attribute));
     });
-
-    // scale function for height of each bar
-    const barHeightScale = d3
-      .scaleLinear()
-      .domain([0, 100])
-      .range([0, barChartHeight - barChartMargin]);
 
     // draw bars
     barChart
@@ -269,7 +304,13 @@ function drawBarChartBars() {
         return barChartHeight - barHeightScale(d);
       })
       .attr("fill", "#1DB954") // spotify green :)
-      .attr("stroke", "black");
+      .attr("stroke", "black")
+      .attr("id", function(_, i) {
+        return barChartAttributes[i];
+      })
+      .on("mouseover", handleBarChartMouseover)
+      .on("mouseleave", handleBarChartMouseleave)
+      .on("mousemove", handleBarChartMousemove);
   });
 }
 
