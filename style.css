@@ -1,8 +1,25 @@
 body {
-  font-family: Arial;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: #191414;
   margin-left: 75px;
   margin-right: 75px;
   text-align: justify;
+}
+
+h1 {
+  margin-top: 50px;
+}
+
+select {
+  margin-top: 5px;
+}
+
+.section {
+  background-color: #2a2a2a96;
+  padding: 5px 20px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
 }
 
 .centered {
