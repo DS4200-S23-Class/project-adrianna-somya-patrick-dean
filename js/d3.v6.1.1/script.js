@@ -69,12 +69,12 @@ const SCATTER_PLOT_TOOLTIP = d3
   .style("display", "none");
 
 function handleScatterplotMouseover(event, d) {
-  event.target.style.fill = "#1DB954";
+  event.target.style.fill = "#a7b0ca";
   SCATTER_PLOT_TOOLTIP.style("display", "block");
 }
 
 function handleScatterplotMouseleave(event, d) {
-  event.target.style.fill = "palevioletred";
+  event.target.style.fill = "#725e54";
   SCATTER_PLOT_TOOLTIP.style("display", "none");
 }
 
@@ -127,7 +127,7 @@ function drawScatterplotPoints() {
       })
       .attr("r", 4)
       .attr("transform", "translate(" + 100 + "," + 100 + ")")
-      .style("fill", "palevioletred")
+      .style("fill", "#725e54")
       .on("mouseover", handleScatterplotMouseover)
       .on("mouseleave", handleScatterplotMouseleave)
       .on("mousemove", handleScatterplotMousemove);
@@ -210,12 +210,12 @@ const BAR_CHART_TOOLTIP = d3
   .style("display", "none");
 
 function handleBarChartMouseover(event, d) {
-  event.target.style.fill = "palevioletred";
+  event.target.style.fill = "#a7b0ca";
   BAR_CHART_TOOLTIP.style("display", "block");
 }
 
 function handleBarChartMouseleave(event, d) {
-  event.target.style.fill = "#1DB954";
+  event.target.style.fill = "#725e54";
   BAR_CHART_TOOLTIP.style("display", "none");
 }
 
@@ -229,9 +229,7 @@ function handleBarChartMousemove(event, d) {
   //   yValue = (yValue * 100).toFixed(2);
   // }
 
-  BAR_CHART_TOOLTIP.html(
-    `average ${event.target.id}: ${d.toFixed(2)}` 
-  )
+  BAR_CHART_TOOLTIP.html(`average ${event.target.id}: ${d.toFixed(2)}`)
     .style("left", event.pageX + 10 + "px")
     .style("top", event.pageY - 50 + "px");
 }
@@ -303,9 +301,9 @@ function drawBarChartBars() {
       .attr("y", function (d) {
         return barChartHeight - barHeightScale(d);
       })
-      .attr("fill", "#1DB954") // spotify green :)
+      .attr("fill", "#725e54") // spotify green :)
       .attr("stroke", "black")
-      .attr("id", function(_, i) {
+      .attr("id", function (_, i) {
         return barChartAttributes[i];
       })
       .on("mouseover", handleBarChartMouseover)
