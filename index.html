@@ -92,6 +92,7 @@
     <div class="sectionBorder">
       <h2>Visualization</h2>
       <h3 class="centered">Discover New Music</h3>
+      <h4 class = "centered">Click a point to view actions for that song</h4>
       <div class="container">
         <div class="col1">
           <label for="axisY">Song Feature</label>
@@ -111,7 +112,14 @@
         </div>
 
         <div class="col2">
-          <div id="vis1"></div>
+          <div id="vis1">
+            <div id="song-modal">
+              Song actions: 
+              <button id="like-button" class="modal-button">Like song</button>
+              <button id="dislike-button" class="modal-button">Dislike song</button>
+              <button id="dislike-others-button" class="modal-button">Dislike similar songs</button>
+            </div>
+          </div>
 
           <div class="dropdown2">
             <label for="axisX">Song Feature</label>
