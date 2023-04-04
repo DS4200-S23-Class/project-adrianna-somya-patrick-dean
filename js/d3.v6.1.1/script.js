@@ -225,8 +225,8 @@ function updateScatterplot() {
 // initial reading of the data
 d3.csv("track_data.csv").then((data) => {
   // logging 10 lines of data
-  for (i = 0; i < 10; i++) {
-    console.log(data[i]);
+  for (let i = 0; i < 10; i++) {
+    //console.log(data[i]);
   }
 
   // plot
@@ -402,3 +402,65 @@ function updateBarChart() {
 
 // initial read of data
 drawBarChartBars();
+
+// any songs below this threshold is considered to be a similar song
+const similarSongThreshold = 0.25;
+
+// pass in a single song object
+// return list of song objects similar to given song
+async function getSimilarSongs(song) {
+
+  const similarSongs = [];
+
+  // needs await
+  await d3.csv("track_data.csv").then((data) => {
+
+    const distances = []
+
+    // iterating through all lines of data
+    for (let i = 0; i < data.length; i++) {
+
+      const distance = Math.sqrt(Math.pow(song.danceability - data[i].danceability, 2) + 
+                  Math.pow(song.energy - data[i].energy, 2) + 
+                  Math.pow(song.speechiness - data[i].speechiness, 2) + 
+                  Math.pow(song.instrumentalness - data[i].instrumentalness, 2) + 
+                  Math.pow(song.tempo - data[i].tempo, 2) + 
+                  Math.pow(song.loudness - data[i].loudness, 2) + 
+                  Math.pow(song.acousticness - data[i].acousticness, 2) + 
+                  Math.pow(song.liveness - data[i].liveness, 2) + 
+                  Math.pow(song.valence - data[i].valence, 2));
+
+      distances.push({
+        song: data[i],
+        distance: distance
+      });
+
+      if (distance < similarSongThreshold) {
+        similarSongs.push(data[i]); 
+      }
+    }
+
+    // for testing purposes, determining threshold
+    // distances.sort((a, b) => a.distance - b.distance);
+    // console.log(distances)    
+  });
+
+  return similarSongs;
+  
+}
+
+const testSong = {
+  track_name: "Rich Flex",
+  artist_name: "Drake",
+  popularity: 90,
+  danceability: 0.5742067553735927,
+  energy: 0.5215549524228026,
+  speechiness: 0.2554973821989529,
+  instrumentalness: 0,
+  tempo: 0.6958232431769341,
+  loudness: 0.7657296179598267,
+  acousticness: 0.05050032066824055,
+  liveness: 0.3526970954356846,
+  valence: 0.43089430894308944
+}
+console.log(getSimilarSongs(testSong));
