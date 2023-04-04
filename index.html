@@ -97,7 +97,7 @@
         <div class="col1">
           <label for="axisY">Song Feature</label>
           <br />
-          <select name="axisY" id="axisY" onChange="updateScatterplot()">
+          <select name="axisY" id="axisY" onchange="updateScatterplot()">
             <option value="popularity">Popularity</option>
             <option value="danceability">Danceability</option>
             <option value="energy">Energy</option>
@@ -114,17 +114,23 @@
         <div class="col2">
           <div id="vis1">
             <div id="song-modal">
-              Song actions: 
-              <button id="like-button" class="modal-button">Like song</button>
-              <button id="dislike-button" class="modal-button">Dislike song</button>
+              <div id="song-info"></div>
+              <button id="like-button" class="modal-button" onclick="likeSong()">Like song</button>
+              <button id="dislike-button" class="modal-button" onclick="dislikeSong()">Dislike song</button>
               <button id="dislike-others-button" class="modal-button">Dislike similar songs</button>
+              <br />
+              <div id="addSong">
+                <label for="addSongToPlaylist">Add song to playlist</label>
+                <select name="addSongToPlaylist" id="addSongToPlaylist"></select>
+                <button onclick="addSongToPlaylist()">Add</button>
+              </div>
             </div>
           </div>
 
           <div class="dropdown2">
             <label for="axisX">Song Feature</label>
             <br />
-            <select name="axisX" id="axisX" onChange="updateScatterplot()">
+            <select name="axisX" id="axisX" onchange="updateScatterplot()">
               <option value="popularity">Popularity</option>
               <option value="danceability">Danceability</option>
               <option value="energy">Energy</option>
@@ -145,12 +151,22 @@
         <div class="playlistCol">
           <label for="playlistSelect">Choose a Playlist</label>
           <br />
-          <select name="playlistSelect" id="playlistSelect" onChange="updateBarChart()">
-            <option value="likedsongs">Liked Songs</option>
-            <option value="chillvibes">Chill Vibes</option>
-            <option value="tswift">I LOVE TAYLOR SWIFT</option>
-            <option value="garbage">AJR Mega-Playlist</option>
+          <select name="playlistSelect" id="playlistSelect" onchange="updateBarChart()">
           </select>
+          <br />
+          <br />
+          <br />
+          Songs in this playlist:
+          <br />
+          <div id="song-list">
+          </div>
+          <br />
+          <br />
+          <br />
+          <label for="newPlaylistName">Add a New Playlist</label>
+          <br />
+          <input name="newPlaylistName" type="text" id="newPlaylistName" placeholder="Playlist name...">
+          <button onClick="addNewPlaylist()">Add new playlist!</button>
         </div>
         <div class="barChartCol">
           <div id="vis2"></div>
