@@ -92,9 +92,21 @@ select {
 }
 
 .modal-button {
-  display: none;
   position: relative;
   border: 2px solid black;
   border-radius: 10px;
   padding: 2px;
+}
+
+#song-modal {
+  display: none;
+}
+
+#song-list {
+  height: 50px;
+  overflow-y: scroll;
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
 }
