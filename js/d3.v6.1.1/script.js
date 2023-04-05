@@ -41,8 +41,8 @@ function scalePoint(d, scaleFunction, axisFunction) {
 const svg = d3
     .select("#vis1")
     .append("svg")
-    .attr("width", 800)
-    .attr("height", 800),
+    .attr("width", 650)
+    .attr("height", 650),
   margin = 150,
   width = svg.attr("width") - margin,
   height = svg.attr("height") - margin;

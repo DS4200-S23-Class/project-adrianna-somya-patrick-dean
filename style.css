@@ -177,3 +177,7 @@ select {
   padding: 7px;
   text-align: center;
 }
+
+#vis1 {
+  margin-top: 0;
+}
