@@ -44,11 +44,12 @@ select {
 }
 
 .col1 {
-  width: 5%;
+  width: 50%;
+  text-align: right;
 }
 
 .col2 {
-  width: 95%;
+  width: 50%;
   text-align: center;
 }
 
@@ -78,7 +79,7 @@ select {
 }
 
 .bar-tooltip {
-  background-color: b7d5d4;
+  background-color: #b7d5d4;
 }
 
 /* The Modal (background) */
@@ -92,15 +93,7 @@ select {
   z-index: 1;
   left: 100px;
   top: 1300px;
-  max-width: 350px;
-}
-
-.modal-button {
-  position: relative;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 2px;
-  margin-top: 6px;
+  max-width: 400px;
 }
 
 #song-modal {
@@ -127,6 +120,7 @@ select {
   background-color: #b7d5d4;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
 }
 
 #axisX {
@@ -139,6 +133,7 @@ select {
   border-radius: 5px;
   padding: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
 #playlistSelect {
@@ -151,6 +146,7 @@ select {
   border-radius: 5px;
   padding: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
 #newPlaylistName {
@@ -166,7 +162,7 @@ select {
   text-align: center;
 }
 
-#newPlaylistBtn {
+.styled-button {
   width: auto;
   height: auto;
   border: 1px solid #b7d5d4;
@@ -176,4 +172,6 @@ select {
   border-radius: 5px;
   padding: 7px;
   text-align: center;
+  margin: 7px 0px;
+  cursor: pointer;
 }

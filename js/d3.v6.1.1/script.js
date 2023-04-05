@@ -68,6 +68,99 @@ const SCATTER_PLOT_TOOLTIP = d3
   .attr("class", "scatter-tooltip")
   .style("display", "none");
 
+// initial playlist declaration
+// a map where playlist name => songs in playlist
+const playlists = new Map();
+
+// get playlist user has selected
+function getSelectedPlaylist() {
+  const playlist = document.getElementById("playlistSelect").value;
+  return playlist;
+}
+
+// adds a new empty playlist
+function addPlaylist(name) {
+  if (!playlists.has(name)) {
+    playlists.set(name, []);
+
+    // adds playlist to playlist dropdown
+    const dropdown = document.getElementById("playlistSelect");
+    const option = document.createElement("option");
+    option.value = name;
+    option.text = name;
+    dropdown.appendChild(option);
+  }
+}
+
+// add a playlist using the text input
+function addNewPlaylist() {
+  const textInput = document.getElementById("newPlaylistName");
+  addPlaylist(textInput.value);
+
+  // add to dropdown in modal
+  const dropdown = document.getElementById("addSongToPlaylist");
+  const option = document.createElement("option");
+  option.value = textInput.value;
+  option.text = textInput.value;
+  dropdown.appendChild(option);
+  textInput.value = "";
+}
+
+function addSongToPlaylist() {
+  const playlist = document.getElementById("addSongToPlaylist").value;
+  playlists.set(playlist, [...playlists.get(playlist), selectedSong]);
+
+  drawBarChartBars();
+  updateSongList();
+}
+
+// start with an empty liked songs playlist
+addPlaylist("Liked Songs");
+
+// disliked songs
+const dislikedSongs = [];
+
+// song the user clicked on most recently
+let selectedSong = undefined;
+
+function likeSong() {
+  // add to liked songs playlist
+  playlists.set("Liked Songs", [...playlists.get("Liked Songs"), selectedSong]);
+  // rerender bar graph
+  drawBarChartBars();
+  // rerender song list
+  updateSongList();
+}
+
+function dislikeSong() {
+  // dislike
+  dislikedSongs.push(selectedSong);
+  // redraw scatterplot
+  drawScatterplotPoints();
+}
+
+function dislikeOtherSongs() {
+  // find similar songs
+  getSimilarSongs(selectedSong).then((similarSongs) => {
+    // dislike those songs
+    dislikedSongs.push(...similarSongs);
+  }) 
+}
+
+// update songs displayed in the current playlist
+function updateSongList() {
+  const selectedPlaylist = document.getElementById("playlistSelect").value;
+  const songList = document.getElementById("song-list");
+  while (songList.firstChild) {
+    songList.removeChild(songList.firstChild);
+  }
+  playlists.get(selectedPlaylist).forEach((song) => {
+    const div = document.createElement("div");
+    div.innerHTML = `${song.track_name} by ${song.artist_name}`;
+    songList.appendChild(div);
+  });
+}
+
 function handleScatterplotMouseover(event, d) {
   event.target.style.fill = "#b7d5d4";
   SCATTER_PLOT_TOOLTIP.style("display", "block");
@@ -94,10 +187,30 @@ function handleScatterplotMousemove(event, d) {
       "<br/>artist name: " +
       d.artist_name +
       `<br/>${getScatterplotXAxis()}: ${xValue}` +
-      `<br/>${getScatterplotYAxis()}: ${yValue}`
+      `<br/>${getScatterplotYAxis()}: ${yValue}` +
+      "<br/>click to view song actions"
   )
     .style("left", event.pageX + 10 + "px")
     .style("top", event.pageY - 50 + "px");
+}
+
+function handleScatterplotMouseclick(event, d) {
+  const SCATTER_PLOT_MODAL_HTML = document.getElementById("song-modal");
+  SCATTER_PLOT_MODAL_HTML.style.display = "block";
+
+  const songInfo = document.getElementById("song-info");
+  songInfo.innerHTML = `Selected song: ${d.track_name} by ${d.artist_name}`;
+
+  selectedSong = d;
+
+  const addToPlaylist = document.getElementById("addSong");
+  if (playlists.size > 1) {
+    addToPlaylist.style.display = "block";
+  } else {
+    addToPlaylist.style.display = "none";
+  }
+
+  SCATTER_PLOT_TOOLTIP.style("display", "none");
 }
 
 // read csv and draw scatter plot points
@@ -112,9 +225,9 @@ function drawScatterplotPoints() {
       .append("g")
       .selectAll("dot")
       .data(
-        data.filter((_) => {
+        data.filter((d) => {
           const num = Math.random();
-          return num < 0.05;
+          return num < 0.05 && !dislikedSongs.includes(d);
         })
       )
       .enter()
@@ -130,7 +243,8 @@ function drawScatterplotPoints() {
       .style("fill", "#725e54")
       .on("mouseover", handleScatterplotMouseover)
       .on("mouseleave", handleScatterplotMouseleave)
-      .on("mousemove", handleScatterplotMousemove);
+      .on("mousemove", handleScatterplotMousemove)
+      .on("click", handleScatterplotMouseclick);
   });
 }
 
@@ -142,28 +256,33 @@ function updateScatterplot() {
 // initial reading of the data
 d3.csv("track_data.csv").then((data) => {
   // logging 10 lines of data
-  for (i = 0; i < 10; i++) {
-    console.log(data[i]);
+  for (let i = 0; i < 10; i++) {
+    //console.log(data[i]);
   }
 
   // plot
   drawScatterplotPoints();
 });
 
-// get playlist user has selected
-function getPlaylist() {
-  const playlist = document.getElementById("playlistSelect").value;
-  return playlist;
-}
-// bar chart
+/**
+ * Bar chart-relevant code
+ */
 const barChart = d3
     .select("#vis2")
     .append("svg")
     .attr("height", 400)
     .attr("width", 900),
-  barChartMargin = 50,
+  barChartMargin = 40,
   barChartWidth = barChart.attr("width") - barChartMargin,
   barChartHeight = barChart.attr("height") - barChartMargin;
+
+barChart
+  .append("text")
+  .attr("transform", `translate(${barChartMargin},${barChartHeight} + 10)`)
+  .attr("x", 400)
+  .attr("y", 390)
+  .attr("font-size", "15px")
+  .text("Song Features");
 
 // list of attributes to display in bar chart
 const barChartAttributes = [
@@ -191,15 +310,6 @@ const barChartAxes = barChart
   .append("g")
   .attr("transform", `translate(${barChartMargin},${barChartHeight})`)
   .call(d3.axisBottom(scaleBarXAxis));
-
-barChart
-  .append("text")
-  .attr("transform", `translate(${barChartMargin},${barChartHeight} + 10)`)
-  .attr("x", 400)
-  .attr("y", 390)
-  .attr("font-size", "15px")
-  .text("Song Features");
-
 // y axis
 barChartAxes
   .append("g")
@@ -219,7 +329,7 @@ const BAR_CHART_TOOLTIP = d3
   .style("display", "none");
 
 function handleBarChartMouseover(event, d) {
-  event.target.style.fill = "#b7d5d4";
+  event.target.style.fill = "#a7b0ca";
   BAR_CHART_TOOLTIP.style("display", "block");
 }
 
@@ -229,15 +339,6 @@ function handleBarChartMouseleave(event, d) {
 }
 
 function handleBarChartMousemove(event, d) {
-  // let xValue = d[getScatterplotXAxis()];
-  // let yValue = d[getScatterplotYAxis()];
-  // if (getScatterplotXAxis() !== "popularity") {
-  //   xValue = (xValue * 100).toFixed(2);
-  // }
-  // if (getScatterplotYAxis() !== "popularity") {
-  //   yValue = (yValue * 100).toFixed(2);
-  // }
-
   BAR_CHART_TOOLTIP.html(`average ${event.target.id}: ${d.toFixed(2)}`)
     .style("left", event.pageX + 10 + "px")
     .style("top", event.pageY - 50 + "px");
@@ -251,25 +352,7 @@ function drawBarChartBars() {
     barChart.selectAll("rect").remove();
 
     // choose songs based on selected playlist
-    // will be changed
-    let songs = [];
-    switch (getPlaylist()) {
-      case "likedsongs":
-        data.forEach((d, i) => {
-          if (i % 150 === 0) {
-            songs.push(d);
-          }
-        });
-        break;
-      case "chillvibes":
-        songs = data.filter((d) => d.energy < 0.5);
-        break;
-      case "tswift":
-        songs = data.filter((d) => d.artist_name.includes("Taylor Swift"));
-        break;
-      case "garbage":
-        songs = data.filter((d) => d.artist_name.includes("AJR"));
-    }
+    const songs = playlists.get(getSelectedPlaylist());
 
     // construct each bar height in the graph by calculating averages
     // function to calculate average
@@ -324,7 +407,74 @@ function drawBarChartBars() {
 // changing user playlist will update the graph
 function updateBarChart() {
   drawBarChartBars();
+  updateSongList();
 }
 
 // initial read of data
 drawBarChartBars();
+
+/**
+ * Algorithm to find similar songs
+ */
+
+// any songs below this threshold is considered to be a similar song
+const similarSongThreshold = 0.25;
+
+// pass in a single song object
+// return list of song objects similar to given song
+async function getSimilarSongs(song) {
+  const similarSongs = [];
+
+  // needs await
+  await d3.csv("track_data.csv").then((data) => {
+    const distances = [];
+
+    // iterating through all lines of data
+    for (let i = 0; i < data.length; i++) {
+      const distance = Math.sqrt(
+        Math.pow(song.danceability - data[i].danceability, 2) +
+          Math.pow(song.energy - data[i].energy, 2) +
+          Math.pow(song.speechiness - data[i].speechiness, 2) +
+          Math.pow(song.instrumentalness - data[i].instrumentalness, 2) +
+          Math.pow(song.tempo - data[i].tempo, 2) +
+          Math.pow(song.loudness - data[i].loudness, 2) +
+          Math.pow(song.acousticness - data[i].acousticness, 2) +
+          Math.pow(song.liveness - data[i].liveness, 2) +
+          Math.pow(song.valence - data[i].valence, 2)
+      );
+
+      distances.push({
+        song: data[i],
+        distance: distance,
+      });
+
+      if (distance < similarSongThreshold) {
+        similarSongs.push(data[i]);
+      }
+    }
+
+    // for testing purposes, determining threshold
+    // distances.sort((a, b) => a.distance - b.distance);
+    // console.log(distances)
+  });
+
+  return similarSongs;
+}
+
+// testing, uncomment when necessary
+
+// const testSong = {
+//   track_name: "Rich Flex",
+//   artist_name: "Drake",
+//   popularity: 90,
+//   danceability: 0.5742067553735927,
+//   energy: 0.5215549524228026,
+//   speechiness: 0.2554973821989529,
+//   instrumentalness: 0,
+//   tempo: 0.6958232431769341,
+//   loudness: 0.7657296179598267,
+//   acousticness: 0.05050032066824055,
+//   liveness: 0.3526970954356846,
+//   valence: 0.43089430894308944,
+// };
+// console.log(getSimilarSongs(testSong));
