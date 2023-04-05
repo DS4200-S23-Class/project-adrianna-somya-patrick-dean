@@ -80,7 +80,7 @@ function getSelectedPlaylist() {
 
 // adds a new empty playlist
 function addPlaylist(name) {
-  if (!playlists.has(name)) {
+  if (!playlists.has(name) && name !== "") {
     playlists.set(name, []);
 
     // adds playlist to playlist dropdown
@@ -95,15 +95,16 @@ function addPlaylist(name) {
 // add a playlist using the text input
 function addNewPlaylist() {
   const textInput = document.getElementById("newPlaylistName");
-  addPlaylist(textInput.value);
-
-  // add to dropdown in modal
-  const dropdown = document.getElementById("addSongToPlaylist");
-  const option = document.createElement("option");
-  option.value = textInput.value;
-  option.text = textInput.value;
-  dropdown.appendChild(option);
-  textInput.value = "";
+  if (!playlists.has(textInput.value) && textInput.value !== "") {
+    addPlaylist(textInput.value);
+    // add to dropdown in modal
+    const dropdown = document.getElementById("addSongToPlaylist");
+    const option = document.createElement("option");
+    option.value = textInput.value;
+    option.text = textInput.value;
+    dropdown.appendChild(option);
+    textInput.value = "";
+  }
 }
 
 function addSongToPlaylist() {
