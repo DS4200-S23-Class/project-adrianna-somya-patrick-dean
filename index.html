@@ -92,23 +92,25 @@
     <div class="sectionBorder">
       <h2>Visualization</h2>
       <h3 class="centered">Discover New Music</h3>
-      <h4 class = "centered">Click a point to view actions for that song</h4>
+      <p class = "centered">Hover over a point to view more information, or click on a point to view actions for that song</p>
       <div class="container">
         <div class="col1">
-          <label for="axisY">Song Feature</label>
-          <br />
-          <select name="axisY" id="axisY" onchange="updateScatterplot()">
-            <option value="popularity">Popularity</option>
-            <option value="danceability">Danceability</option>
-            <option value="energy">Energy</option>
-            <option value="speechiness">Speechiness</option>
-            <option value="instrumentalness">Instrumentalness</option>
-            <option value="tempo">Tempo</option>
-            <option value="loudness">Loudness</option>
-            <option value="acousticness">Acousticness</option>
-            <option value="liveness">Liveness</option>
-            <option value="valence">Valence</option>
-          </select>
+          <div class="yAxis">
+            <label for="axisY">Song Feature</label>
+            <br />
+            <select name="axisY" id="axisY" onchange="updateScatterplot()">
+              <option value="popularity">Popularity</option>
+              <option value="danceability">Danceability</option>
+              <option value="energy">Energy</option>
+              <option value="speechiness">Speechiness</option>
+              <option value="instrumentalness">Instrumentalness</option>
+              <option value="tempo">Tempo</option>
+              <option value="loudness">Loudness</option>
+              <option value="acousticness">Acousticness</option>
+              <option value="liveness">Liveness</option>
+              <option value="valence">Valence</option>
+            </select>
+          </div>
         </div>
 
         <div class="col2">
@@ -145,8 +147,10 @@
           </div>
         </div>
       </div>
-
+      <br />
+      <br />
       <h3 class="centered">Analyze Your Playlist</h3>
+      <p class = "centered">Hover over a bar to see more data</p>
       <div class="container">
         <div class="playlistCol">
           <label for="playlistSelect">Choose a Playlist</label>
@@ -166,7 +170,7 @@
           <label for="newPlaylistName">Add a New Playlist</label>
           <br />
           <input name="newPlaylistName" type="text" id="newPlaylistName" placeholder="Playlist name...">
-          <button onClick="addNewPlaylist()">Add new playlist!</button>
+          <button id="newPlaylistBtn" onClick="addNewPlaylist()">Add new playlist!</button>
         </div>
         <div class="barChartCol">
           <div id="vis2"></div>
