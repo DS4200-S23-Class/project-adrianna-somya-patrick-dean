@@ -44,12 +44,12 @@ select {
 }
 
 .col1 {
-  width: 25%;
+  width: 50%;
   text-align: right;
 }
 
 .col2 {
-  width: 75%;
+  width: 50%;
   text-align: left;
 }
 
@@ -62,7 +62,7 @@ select {
 }
 
 .dropdown2 {
-  padding-right: 275px;
+  padding-right: 185px;
   text-align: center;
 }
 
@@ -93,23 +93,28 @@ select {
   text-align: left;
   z-index: 1;
   left: 100px;
-  top: 1250px;
-  max-width: 350px;
+  top: 1180px;
+  width: 436px;
 }
 
 #song-modal {
   display: none;
 }
 
-#song-list {
+#song-list, #dislike-list {
   width: auto;
-  height: 50px;
+  height: 100px;
   overflow-y: scroll;
   background-color: white;
   border: 2px solid #b7d5d4;
   border-radius: 5px;
   padding: 5px;
   margin: 5px 5px 5px 0px;
+}
+
+#dislike-box {
+  text-align: left;
+  width: 70%;
 }
 
 #axisY {

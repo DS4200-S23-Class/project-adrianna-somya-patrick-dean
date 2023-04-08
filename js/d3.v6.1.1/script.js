@@ -41,26 +41,32 @@ function scalePoint(d, scaleFunction, axisFunction) {
 const svg = d3
     .select("#vis1")
     .append("svg")
-    .attr("width", 650)
-    .attr("height", 650),
-  margin = 150,
+    .attr("width", 575)
+    .attr("height", 575),
+  margin = 30,
   width = svg.attr("width") - margin,
   height = svg.attr("height") - margin;
 
-// scaling function
-const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]),
-  yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+// scaling functions
+const xScale = d3
+    .scaleLinear()
+    .domain([0, 100])
+    .range([0, width - margin]),
+  yScale = d3
+    .scaleLinear()
+    .domain([0, 100])
+    .range([height - margin, 0]);
 
 // axes for scatterplot
-const g = svg
+const scatterplotAxes = svg
   .append("g")
-  .attr("transform", "translate(" + 100 + "," + 100 + ")");
-
-g.append("g")
-  .attr("transform", "translate(0," + height + ")")
+  .attr("transform", `translate(${margin},${height})`)
   .call(d3.axisBottom(xScale));
 
-g.append("g").call(d3.axisLeft(yScale));
+scatterplotAxes
+  .append("g")
+  .attr("transform", `translate(0, ${-(height - margin)})`)
+  .call(d3.axisLeft(yScale));
 
 const SCATTER_PLOT_TOOLTIP = d3
   .select("#vis1")
@@ -136,16 +142,27 @@ function likeSong() {
 function dislikeSong() {
   // dislike
   dislikedSongs.push(selectedSong);
-  // redraw scatterplot
-  drawScatterplotPoints();
+  // remove from viz
+  d3.select(`#${formatId(selectedSong)}`).remove();
+  // update displayed list of disliked
+  updateDislikedList();
 }
 
-function dislikeOtherSongs() {
+function dislikeSimilarSongs() {
   // find similar songs
   getSimilarSongs(selectedSong).then((similarSongs) => {
-    // dislike those songs
-    dislikedSongs.push(...similarSongs);
-  }) 
+    const songsToDislike = similarSongs.filter((song) => {
+      return (
+        song.track_name !== selectedSong.track_name &&
+        song.artist_name !== selectedSong.artist_name
+      );
+    });
+    dislikedSongs.push(...songsToDislike);
+    songsToDislike.forEach((song) => {
+      d3.select(`#${formatId(song)}`).remove();
+    });
+    updateDislikedList();
+  });
 }
 
 // update songs displayed in the current playlist
@@ -159,6 +176,19 @@ function updateSongList() {
     const div = document.createElement("div");
     div.innerHTML = `${song.track_name} by ${song.artist_name}`;
     songList.appendChild(div);
+  });
+}
+
+// update disliked songs in HTML
+function updateDislikedList() {
+  const dislikeList = document.getElementById("dislike-list");
+  while (dislikeList.firstChild) {
+    dislikeList.removeChild(dislikeList.firstChild);
+  }
+  dislikedSongs.forEach((song) => {
+    const div = document.createElement("div");
+    div.innerHTML = `${song.track_name} by ${song.artist_name}`;
+    dislikeList.appendChild(div);
   });
 }
 
@@ -214,6 +244,14 @@ function handleScatterplotMouseclick(event, d) {
   SCATTER_PLOT_TOOLTIP.style("display", "none");
 }
 
+// get a css id for a song
+function formatId(d) {
+  let id = "t" + d.track_name + d.artist_name;
+  id = id.toLowerCase();
+  id = id.replace(/\W/g, "");
+  return id;
+}
+
 // read csv and draw scatter plot points
 function drawScatterplotPoints() {
   // remove any previous points
@@ -234,14 +272,16 @@ function drawScatterplotPoints() {
       .enter()
       .append("circle")
       .attr("cx", function (d) {
-        return scalePoint(d, xScale, getScatterplotXAxis);
+        return scalePoint(d, xScale, getScatterplotXAxis) + margin;
       })
       .attr("cy", function (d) {
-        return scalePoint(d, yScale, getScatterplotYAxis);
+        return scalePoint(d, yScale, getScatterplotYAxis) + margin;
       })
       .attr("r", 4)
-      .attr("transform", "translate(" + 100 + "," + 100 + ")")
       .style("fill", "#725e54")
+      .attr("id", function (d) {
+        return formatId(d);
+      })
       .on("mouseover", handleScatterplotMouseover)
       .on("mouseleave", handleScatterplotMouseleave)
       .on("mousemove", handleScatterplotMousemove)
@@ -425,7 +465,7 @@ const similarSongThreshold = 0.25;
 // return list of song objects similar to given song
 async function getSimilarSongs(song) {
   const similarSongs = [];
-
+  console.log("here");
   // needs await
   await d3.csv("track_data.csv").then((data) => {
     const distances = [];

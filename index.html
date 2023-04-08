@@ -92,9 +92,15 @@
     <div class="sectionBorder">
       <h2>Visualization</h2>
       <h3 class="centered">Discover New Music</h3>
-      <p class = "centered">Hover over a point to view the song title and the specific values for the selected song features, or click on a point to view actions for the selected song</p>
+      <div class = "centered">Hover over a point to view the song title and the specific values for the selected song features, or click on a point to view actions for the selected song</div>
       <div class="container">
         <div class="col1">
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <div class="yAxis">
             <label for="axisY">Song Feature</label>
             <br />
@@ -111,6 +117,14 @@
               <option value="valence">Valence</option>
             </select>
           </div>
+          <br />
+          <br />
+          <div id="dislike-box">
+            Disliked songs (these will not be displayed in the scatterplot):
+            <br />
+            <div id="dislike-list">
+            </div>
+          </div>
         </div>
 
         <div class="col2">
@@ -119,7 +133,7 @@
               <div id="song-info"></div>
               <button id="like-button" class="styled-button" onclick="likeSong()">Like song</button></br>
               <button id="dislike-button" class="styled-button" onclick="dislikeSong()">Dislike song</button></br>
-              <button id="dislike-others-button" class="styled-button">Dislike similar songs</button>
+              <button id="dislike-others-button" class="styled-button" onclick="dislikeSimilarSongs()">Dislike similar songs</button>
               <br />
               <div id="addSong">
                 <label for="addSongToPlaylist">Add song to playlist</label>
@@ -150,7 +164,7 @@
       <br />
       <br />
       <h3 class="centered">Analyze Your Playlist</h3>
-      <p class = "centered">Hover over a bar to see the average value of each song feature in your playlist</p>
+      <div class = "centered">Hover over a bar to see the average value of each song feature in your playlist</div>
       <div class="container">
         <div class="playlistCol">
           <label for="playlistSelect">Choose a Playlist</label>
