@@ -370,7 +370,7 @@ const BAR_CHART_TOOLTIP = d3
   .style("display", "none");
 
 function handleBarChartMouseover(event, d) {
-  event.target.style.fill = "#a7b0ca";
+  event.target.style.fill = "#b7d5d4";
   BAR_CHART_TOOLTIP.style("display", "block");
 }
 
