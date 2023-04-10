@@ -57,12 +57,17 @@ select {
   width: 30%;
 }
 
+.yAxisLabelCol {
+  width: 10%;
+  text-align: right;
+}
+
 .barChartCol {
-  width: 70%;
+  width: 60%;
 }
 
 .dropdown2 {
-  padding-right: 185px;
+  padding-right: 75px;
   text-align: center;
 }
 

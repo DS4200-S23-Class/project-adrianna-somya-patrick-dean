@@ -312,7 +312,7 @@ const barChart = d3
     .select("#vis2")
     .append("svg")
     .attr("height", 400)
-    .attr("width", 900),
+    .attr("width", 800),
   barChartMargin = 40,
   barChartWidth = barChart.attr("width") - barChartMargin,
   barChartHeight = barChart.attr("height") - barChartMargin;
@@ -320,10 +320,10 @@ const barChart = d3
 barChart
   .append("text")
   .attr("transform", `translate(${barChartMargin},${barChartHeight} + 10)`)
-  .attr("x", 400)
-  .attr("y", 390)
+  .attr("x", 350)
+  .attr("y", 395)
   .attr("font-size", "15px")
-  .text("Song Features");
+  .text("Song Feature");
 
 // list of attributes to display in bar chart
 const barChartAttributes = [
