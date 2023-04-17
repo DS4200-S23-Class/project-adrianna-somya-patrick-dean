@@ -1,0 +1,97 @@
+﻿WEBVTT
+
+00:00:04.080 --> 00:00:08.100
+All right so this is our demo video! We've got
+a couple visualizations but I'm going to start
+
+00:00:08.100 --> 00:00:12.900
+with the scatter plot, which plots songs based on
+axes that the user can customize. Right now it's
+
+00:00:12.900 --> 00:00:16.800
+a popularity versus popularity comparison which
+isn't that interesting, but we can change it to
+
+00:00:16.800 --> 00:00:22.740
+like a danceability versus energy comparison and
+we can see that you know it's plotted the songs
+
+00:00:22.740 --> 00:00:28.020
+that way which is kind of cool. We can then hover
+over songs to see their values so we can hover
+
+00:00:28.020 --> 00:00:32.100
+this one and it'll be like a movie soundtrack I
+guess, which has a pretty low energy and a pretty
+
+00:00:32.100 --> 00:00:36.660
+low danceability which checks out. We can click
+on a song and we can either like it, dislike it,
+
+00:00:36.660 --> 00:00:41.460
+or dislike similar songs. So firstly, let's say
+I want to like this so let's give it a like.
+
+00:00:41.460 --> 00:00:47.520
+And now I'll go to my second visualization
+here which analyzes a playlist. So liking it added
+
+00:00:47.520 --> 00:00:51.840
+it to our liked songs playlist, and we can view
+all the songs in that playlist. What the bar
+
+00:00:51.840 --> 00:00:56.460
+chart does it displays averages for the songs
+in the playlist. So there's only one song in
+
+00:00:56.460 --> 00:01:02.100
+there, so this has a 64 popularity I guess. We can
+also add more to our liked songs, like let's add
+
+00:01:02.880 --> 00:01:07.740
+something completely different, like Big And
+Chunky, which hey you know that'll be more popular!
+
+00:01:07.740 --> 00:01:14.580
+Or, actually, it's less popular, it's 60.5. So there
+you go. This displays averages. You can add a new
+
+00:01:14.580 --> 00:01:20.820
+playlist too. Let's add, I don't know, some random
+playlist here, and we can go ahead and switch to it
+
+00:01:20.820 --> 00:01:25.860
+and there's nothing in there. But we can go ahead
+and add songs to it, such as anything down here.
+
+00:01:25.860 --> 00:01:32.280
+Let's add a miracle sleep tone to it, and it'll
+populate with that also. Another thing we can do is
+
+00:01:32.280 --> 00:01:36.900
+dislike songs, like, I don't want to see any miracle
+sleep tones in my playlist! So, let's go ahead and
+
+00:01:36.900 --> 00:01:41.580
+dislike it and that'll actually remove it from
+the scatter plot, and it will never be displayed
+
+00:01:41.580 --> 00:01:46.380
+in scatter plot anymore. We can also dislike
+similar songs. We wrote an algorithm to see
+
+00:01:46.380 --> 00:01:51.780
+how similar one song is to another, comparing all
+the attributes, so we can dislike similar songs and
+
+00:01:51.780 --> 00:01:56.520
+remove a bunch of other songs from being displayed.
+So, this will remove a whole bunch of stuff. A lot
+
+00:01:56.520 --> 00:02:03.300
+of it seems like movie soundtracks and other very
+slow, calm songs. So yeah! We can compare songs with
+
+00:02:03.300 --> 00:02:07.380
+the scatter plot and add songs to playlists
+and we can make new playlists and analyze them.
